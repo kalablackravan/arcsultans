@@ -48,6 +48,7 @@ export const WHITELIST_BUTTON_BACKGROUND = {
 
 // Module-level caches survive route unmounts and prevent duplicate network waits.
 const loadedImageUrls = new Set<string>();
+const settledAssetUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
 const videoElements = new Map<string, HTMLVideoElement>();
 
@@ -58,11 +59,12 @@ function preloadVideo(url: string) {
     const video = videoElements.get(url) ?? document.createElement("video");
     videoElements.set(url, video);
     let settled = false;
-    const timeout = window.setTimeout(() => finish(false), 4000);
+    const timeout = window.setTimeout(() => finish(false), 2000);
     const finish = (loaded: boolean) => {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeout);
+      settledAssetUrls.add(url);
       if (loaded) loadedImageUrls.add(url);
       imageLoadPromises.delete(url);
       resolve();
@@ -83,7 +85,7 @@ function preloadVideo(url: string) {
 }
 
 function preloadImage(url: string) {
-  if (loadedImageUrls.has(url)) return Promise.resolve();
+  if (settledAssetUrls.has(url)) return Promise.resolve();
 
   const existing = imageLoadPromises.get(url);
   if (existing) return existing;
@@ -102,6 +104,7 @@ function preloadImage(url: string) {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeout);
+      settledAssetUrls.add(url);
       if (loaded) loadedImageUrls.add(url);
       imageLoadPromises.delete(url);
       resolve();
@@ -128,11 +131,11 @@ function preloadImage(url: string) {
 export function useImagesReady(urls: readonly string[]) {
   const uniqueUrls = useMemo(() => [...new Set(urls)], [urls]);
   const key = uniqueUrls.join("|");
-  const [ready, setReady] = useState(() => uniqueUrls.every((url) => loadedImageUrls.has(url)));
+  const [ready, setReady] = useState(() => uniqueUrls.every((url) => settledAssetUrls.has(url)));
 
   useEffect(() => {
     let cancelled = false;
-    const pendingUrls = uniqueUrls.filter((url) => !loadedImageUrls.has(url));
+    const pendingUrls = uniqueUrls.filter((url) => !settledAssetUrls.has(url));
 
     if (pendingUrls.length === 0) {
       setReady(true);
@@ -169,7 +172,7 @@ export function SceneGate({
     <div
       data-scene-ready={ready ? "true" : "false"}
       aria-busy={!ready}
-      className={`${className} transition-opacity duration-300 ease-out ${
+      className={`${className} ${
         ready ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -185,14 +188,14 @@ export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
       <img
         src={HOME_BACKGROUND}
         alt=""
-        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] transition-opacity duration-700 ease-in-out ${
+        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] ${
           isHome ? "opacity-100" : "opacity-0"
         }`}
       />
       <img
         src={WHITELIST_BACKGROUND}
         alt=""
-        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] transition-opacity duration-700 ease-in-out ${
+        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] ${
           isHome ? "opacity-0" : "opacity-100"
         }`}
       />
@@ -218,7 +221,10 @@ export function LoopingVideo({
       muted
       playsInline
       preload="metadata"
-      onLoadedData={() => loadedImageUrls.add(src)}
+      onLoadedData={() => {
+        loadedImageUrls.add(src);
+        settledAssetUrls.add(src);
+      }}
       aria-label={label}
       aria-hidden={label ? undefined : true}
       className={className}
