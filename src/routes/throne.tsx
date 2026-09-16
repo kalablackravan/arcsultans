@@ -81,7 +81,7 @@ function ThronePage() {
                   alt=""
                   className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
                 />
-                <span className="absolute left-[32.3%] top-[69%] w-[35.41%] text-center font-display text-[10px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-xs">
+                <span className="absolute left-1/2 top-[69%] -translate-x-1/2 whitespace-nowrap text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-[11px]">
                   Sultan #553 — The Crowned Sultan
                 </span>
                 <PixelButtonLink
