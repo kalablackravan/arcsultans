@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
@@ -71,7 +71,12 @@ function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
   );
 }
 
+type HomeView = "home" | "whitelist" | "form" | "success";
+const HOME_VIEWS: HomeView[] = ["home", "whitelist", "form", "success"];
+
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): { view?: string } =>
+    typeof search["view"] === "string" ? { view: search["view"] } : {},
   head: () => ({
     meta: [
       { title: "ARCSultans — NFT Whitelist Signup" },
@@ -94,11 +99,15 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [view, setView] = useState<"home" | "whitelist" | "form" | "success">("home");
+  const { view: viewParam } = Route.useSearch();
+  const [view, setView] = useState<HomeView>("home");
 
-  function handleWhitelistDone() {
-    setView("success");
-  }
+  // Sync from the URL (e.g. footer "Palace" link navigating to /?view=home)
+  useEffect(() => {
+    if (viewParam && HOME_VIEWS.includes(viewParam as HomeView)) {
+      setView(viewParam as HomeView);
+    }
+  }, [viewParam]);
 
   const isWhitelist = view === "whitelist";
 
@@ -210,7 +219,7 @@ function Index() {
                   />
                 </div>
                 <div className="relative z-10 px-5 py-5 sm:px-6 sm:py-6">
-                  <WhitelistForm onDone={handleWhitelistDone} />
+                  <WhitelistForm onDone={() => setView("success")} />
                 </div>
               </div>
             </div>
