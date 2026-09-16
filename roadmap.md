@@ -5,4 +5,4 @@
 - [x] Remove the separate Palace button from section pages.
 - [x] Keep section artwork clear of the top status labels.
 - [x] Change the OpenSea destination to https://opensea.io/.
-- [ ] Verify desktop and mobile section layouts and navigation.
+- [x] Verify desktop and mobile section layouts and navigation.
