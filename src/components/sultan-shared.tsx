@@ -32,10 +32,19 @@ export const SITE_CHROME_IMAGES = [
 ] as const;
 
 export const SIDE_FRAMES = [
-  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.mp4`,
-  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.mp4`,
-  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.mp4`,
-  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.mp4`,
+  `${CDN_ROOT}/4sides_and_centre/22.png`,
+  `${CDN_ROOT}/4sides_and_centre/258.png`,
+  `${CDN_ROOT}/4sides_and_centre/4.png`,
+  `${CDN_ROOT}/4sides_and_centre/45.png`,
+] as const;
+
+// Labels shown under each corner preview, matching SIDE_FRAMES order
+// (left-top, left-bottom, right-top, right-bottom).
+export const CORNER_LABELS = [
+  "Sultan #22",
+  "Sultan #258",
+  "Sultan #4",
+  "Sultan #45",
 ] as const;
 
 export const WHITELIST_BUTTON_BACKGROUND = {
