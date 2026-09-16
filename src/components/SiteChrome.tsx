@@ -32,10 +32,10 @@ export function SiteFooter() {
           <nav aria-label="Footer navigation" className="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] text-footer-copy sm:gap-x-4">
             {[
               { label: "Palace", to: "/" as const, search: { view: "home" }, image: `${CDN_ROOT}/footer/palace.png` },
-              { label: "Chronicles", to: "/chronicles" as const },
-              { label: "Journey", to: "/journey" as const },
-              { label: "Royal Counsel", to: "/royal-counsel" as const },
-              { label: "Royal Scrolls", to: "/royal-scrolls" as const },
+              { label: "Chronicles", to: "/chronicles" as const, image: `${CDN_ROOT}/footer/chronicles.png` },
+              { label: "Journey", to: "/journey" as const, image: `${CDN_ROOT}/footer/journey.png` },
+              { label: "Royal Counsel", to: "/royal-counsel" as const, image: `${CDN_ROOT}/footer/royalcounsel.png` },
+              { label: "Royal Scrolls", to: "/royal-scrolls" as const, image: `${CDN_ROOT}/footer/royalscrolls.png` },
             ].map((item, index) => (
               <span key={item.label} className="contents">
                 {index > 0 && <span aria-hidden className="text-footer-divider">|</span>}
