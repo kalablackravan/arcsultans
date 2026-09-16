@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 
 const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
@@ -13,6 +13,9 @@ export const WHITELIST_BACKGROUND = `${CDN_ROOT}/backgroundstory/whitelistpage.p
 export const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.gif`;
 export const MAIN_FRAME = `${CDN_ROOT}/frames/mainframe.png`;
 export const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
+export const BUTTON_IMAGE = `${CDN_ROOT}/buttons/button-4kd.png`;
+export const FIELD_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/buttonframe.png`;
+export const FOLLOW_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/followed.png`;
 
 export const SIDE_FRAMES = [
   `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
@@ -29,6 +32,72 @@ export const WHITELIST_BUTTON_BACKGROUND = {
   backgroundSize: "100% 100%",
   imageRendering: "pixelated",
 } as const;
+
+/**
+ * Preloads every image a scene needs so nothing pops in one-by-one.
+ * Returns true only once all of them are decoded (or after a safety timeout).
+ */
+export function useImagesReady(urls: readonly string[]) {
+  const key = urls.join("|");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    let remaining = urls.length;
+    if (remaining === 0) {
+      setReady(true);
+      return;
+    }
+    setReady(false);
+    const finish = () => {
+      remaining -= 1;
+      if (remaining <= 0 && !cancelled) setReady(true);
+    };
+    const safety = setTimeout(() => {
+      if (!cancelled) setReady(true);
+    }, 8000);
+    const loaders = urls.map((url) => {
+      const img = new window.Image();
+      img.onload = finish;
+      img.onerror = finish;
+      img.src = url;
+      return img;
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(safety);
+      loaders.forEach((img) => {
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  return ready;
+}
+
+/** Holds a scene hidden until every image in `images` has loaded. */
+export function SceneGate({
+  images,
+  children,
+  className = "",
+}: {
+  images: readonly string[];
+  children: ReactNode;
+  className?: string;
+}) {
+  const ready = useImagesReady(images);
+  return (
+    <div
+      className={`${className} transition-opacity duration-300 ease-out ${
+        ready ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
 
 export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   const isHome = variant === "home";

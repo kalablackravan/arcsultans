@@ -2,18 +2,33 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import {
+  BUTTON_IMAGE,
   CENTER_PREVIEW,
   CornerGifs,
+  FOUR_FRAMES,
   MAIN_FRAME,
   PageBackground,
   PixelButtonLink,
+  SceneGate,
+  SIDE_FRAMES,
   TITLE_LOGO,
+  WHITELIST_BACKGROUND,
 } from "@/components/sultan-shared";
+
+const THRONE_IMAGES = [
+  WHITELIST_BACKGROUND,
+  TITLE_LOGO,
+  CENTER_PREVIEW,
+  MAIN_FRAME,
+  BUTTON_IMAGE,
+  FOUR_FRAMES,
+  ...SIDE_FRAMES,
+] as const;
 
 export const Route = createFileRoute("/throne")({
   head: () => ({
     meta: [
-      { title: "Claim Your Throne — ARCSultans" },
+      { title: "ARCSultans" },
       {
         name: "description",
         content:
@@ -38,10 +53,11 @@ function ThronePage() {
 
       <TopStatus />
 
-      <CornerGifs />
 
       {/* Content — fills the available viewport above the footer */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
+        <SceneGate images={THRONE_IMAGES} className="w-full">
+        <CornerGifs />
         <section className="state-enter mx-auto flex w-full max-w-xl items-center justify-center">
           <div className="w-full max-w-lg">
             <header className="relative z-10 -mb-7 px-4 pt-1 text-center sm:-mb-10">
@@ -79,6 +95,7 @@ function ThronePage() {
             </div>
           </div>
         </section>
+        </SceneGate>
       </div>
 
       <SiteFooter />

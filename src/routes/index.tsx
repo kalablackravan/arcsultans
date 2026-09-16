@@ -2,15 +2,20 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import {
+  BUTTON_IMAGE,
+  HOME_BACKGROUND,
   PixelButtonLink,
   PageBackground,
+  SceneGate,
   TITLE_LOGO,
 } from "@/components/sultan-shared";
+
+const HOME_IMAGES = [HOME_BACKGROUND, TITLE_LOGO, BUTTON_IMAGE] as const;
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ARCSultans — 999 Sultans Arriving on ARC" },
+      { title: "ARCSultans" },
       {
         name: "description",
         content:
@@ -37,6 +42,7 @@ function Index() {
 
       {/* Content — fills the available viewport above the footer */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
+        <SceneGate images={HOME_IMAGES} className="w-full">
         <section className="state-enter mx-auto flex h-full w-full max-w-3xl -translate-y-12 flex-col items-center justify-center pt-24 text-center sm:-translate-y-16 sm:pt-28">
           <h1 className="sr-only">ARCSultans</h1>
           <img
@@ -54,6 +60,7 @@ function Index() {
             ENTER THE SULTANATE
           </PixelButtonLink>
         </section>
+        </SceneGate>
       </div>
 
       <SiteFooter />
