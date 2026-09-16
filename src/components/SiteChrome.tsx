@@ -89,7 +89,6 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
-      </SceneGate>
     </footer>
   );
 }
