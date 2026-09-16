@@ -62,49 +62,11 @@ const settledAssetUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
 const videoElements = new Map<string, HTMLVideoElement>();
 
-const isVideoUrl = (url: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
-
-function preloadVideo(url: string) {
-  return new Promise<void>((resolve) => {
-    const video = videoElements.get(url) ?? document.createElement("video");
-    videoElements.set(url, video);
-    let settled = false;
-    const timeout = window.setTimeout(() => finish(false), 5000);
-    const finish = (loaded: boolean) => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timeout);
-      settledAssetUrls.add(url);
-      if (loaded) loadedImageUrls.add(url);
-      imageLoadPromises.delete(url);
-      resolve();
-    };
-
-    video.muted = true;
-    video.playsInline = true;
-    video.preload = "auto";
-    video.addEventListener("loadeddata", () => finish(true), { once: true });
-    video.addEventListener("error", () => finish(false), { once: true });
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      finish(true);
-    } else {
-      video.src = url;
-      video.load();
-    }
-  });
-}
-
 function preloadImage(url: string) {
   if (settledAssetUrls.has(url)) return Promise.resolve();
 
   const existing = imageLoadPromises.get(url);
   if (existing) return existing;
-
-  if (isVideoUrl(url)) {
-    const videoPromise = preloadVideo(url);
-    imageLoadPromises.set(url, videoPromise);
-    return videoPromise;
-  }
 
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
