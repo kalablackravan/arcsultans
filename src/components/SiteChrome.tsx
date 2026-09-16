@@ -31,7 +31,7 @@ export function SiteFooter() {
         <div className="min-w-0 lg:px-5">
           <nav aria-label="Footer navigation" className="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] text-footer-copy sm:gap-x-4">
             {[
-              { label: "Palace", to: "/" as const, search: { view: "home" } },
+              { label: "Palace", to: "/" as const, search: { view: "home" }, image: `${CDN_ROOT}/footer/palace.png` },
               { label: "Chronicles", to: "/chronicles" as const },
               { label: "Journey", to: "/journey" as const },
               { label: "Royal Counsel", to: "/royal-counsel" as const },
@@ -42,14 +42,23 @@ export function SiteFooter() {
                 <Link
                   to={item.to}
                   {...("search" in item ? { search: item.search } : {})}
-                  className="transition-colors hover:text-footer-title focus-visible:text-footer-title focus-visible:outline-none"
+                  className="inline-flex items-center transition-colors hover:text-footer-title focus-visible:text-footer-title focus-visible:outline-none"
                   activeProps={{ className: "text-footer-title" }}
                   activeOptions={{ exact: true }}
                 >
-                  {item.label}
+                  {"image" in item && item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="h-3.5 w-auto object-contain [image-rendering:pixelated] sm:h-4"
+                    />
+                  ) : (
+                    item.label
+                  )}
                 </Link>
               </span>
             ))}
+
           </nav>
         </div>
 
