@@ -31,10 +31,10 @@ export const SITE_CHROME_IMAGES = [
 ] as const;
 
 export const SIDE_FRAMES = [
-  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.gif`,
+  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.mp4`,
 ] as const;
 
 export const WHITELIST_BUTTON_BACKGROUND = {
