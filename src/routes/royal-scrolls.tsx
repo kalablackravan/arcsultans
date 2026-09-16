@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { ComingSoonPage } from "@/components/ComingSoonPage";
 
-const ARTWORK = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main/footer/royalscrolls.png";
 
 export const Route = createFileRoute("/royal-scrolls")({
   head: () => ({
@@ -15,5 +14,5 @@ export const Route = createFileRoute("/royal-scrolls")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <ComingSoonPage title="Royal Scrolls" artwork={ARTWORK} />,
+  component: () => <ComingSoonPage title="Royal Scrolls" />,
 });
