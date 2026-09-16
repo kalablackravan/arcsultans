@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ARCSultans NFT" },
+      { title: "ARCSultans" },
       { name: "description", content: "ARCSultans NFT whitelist" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "ARCSultans NFT" },
+      { property: "og:title", content: "ARCSultans" },
       { property: "og:description", content: "ARCSultans NFT whitelist" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
