@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
+import confirmationFrame from "@/assets/whitelistconfirrmations.png.asset.json";
+import confirmationButton from "@/assets/pixel-button-8x.png.asset.json";
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import { WhitelistForm } from "@/components/WhitelistForm";
 import {
@@ -27,8 +29,9 @@ const WHITELIST_IMAGES = [
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
   ...SIDE_FRAMES,
+  confirmationFrame.url,
+  confirmationButton.url,
 ] as const;
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/whitelist")({
   head: () => ({
@@ -67,29 +70,18 @@ function WhitelistPage() {
         <SceneGate images={WHITELIST_IMAGES} className="w-full">
         <CornerGifs />
         {done ? (
-          <section className="state-enter mx-auto flex w-full max-w-2xl items-center justify-center text-center">
-            <div className="success-panel relative w-full border-4 border-accent bg-popover/95 px-5 py-8 pixel-shadow sm:px-10 sm:py-10">
-              <span aria-hidden className="absolute left-3 top-3 h-3 w-3 border-l-2 border-t-2 border-accent" />
-              <span aria-hidden className="absolute right-3 top-3 h-3 w-3 border-r-2 border-t-2 border-accent" />
-              <span aria-hidden className="absolute bottom-3 left-3 h-3 w-3 border-b-2 border-l-2 border-accent" />
-              <span aria-hidden className="absolute bottom-3 right-3 h-3 w-3 border-b-2 border-r-2 border-accent" />
-              <div className="mx-auto mb-5 w-fit border-2 border-accent bg-accent/10 px-3 py-2 font-display text-[9px] font-bold text-accent sm:text-[10px]">
-                ✓ DETAILS RECORDED
-              </div>
-              <h1 className="success-title font-display text-3xl font-extrabold text-accent sm:text-5xl">
-                Your Throne Is Reserved.
-              </h1>
-              <p className="mx-auto mt-5 max-w-lg font-display text-[11px] leading-6 text-foreground sm:text-sm">
-                Your details have been recorded. Welcome to the dynasty.
-              </p>
-              <div aria-hidden className="mx-auto my-6 flex items-center justify-center gap-3 text-accent">
-                <span className="h-px w-12 bg-accent/60" />
-                <span className="font-display text-xs">◆</span>
-                <span className="h-px w-12 bg-accent/60" />
-              </div>
+          <section className="state-enter mx-auto flex w-full items-center justify-center text-center">
+            <div className="relative aspect-[1637/961] w-full max-w-[900px]">
+              <h1 className="sr-only">Your Throne Is Reserved</h1>
+              <img
+                src={confirmationFrame.url}
+                alt="Details recorded. Your Throne Is Reserved. Your details have been recorded. Welcome to the dynasty."
+                className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
+              />
               <Link
                 to="/"
-                className="inline-flex h-14 w-full max-w-sm items-center justify-center border-0 border-b-8 border-secondary bg-primary px-4 font-display text-[11px] font-bold text-primary-foreground shadow-none transition-colors hover:bg-primary/90 active:translate-y-2 active:border-b-0 sm:text-sm"
+                className="absolute left-[26%] top-[72%] flex aspect-[1400/248] w-[48%] items-center justify-center bg-contain bg-center bg-no-repeat px-[8%] font-display text-[clamp(8px,1.35vw,16px)] font-bold text-background transition-[filter,transform] hover:brightness-110 active:translate-y-0.5"
+                style={{ backgroundImage: `url(${confirmationButton.url})` }}
               >
                 RETURN TO THE KINGDOM
               </Link>
