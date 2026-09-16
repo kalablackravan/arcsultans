@@ -6,6 +6,7 @@ import {
   CENTER_PREVIEW,
   CornerGifs,
   FOUR_FRAMES,
+  LoopingVideo,
   MAIN_FRAME,
   PageBackground,
   PixelButtonLink,
