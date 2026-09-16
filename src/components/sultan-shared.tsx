@@ -10,7 +10,8 @@ export const WHITELIST_TAG = `${CDN_ROOT}/whitelist_submit/whitelistag.png`;
 export const PANEL_FRAME = `${CDN_ROOT}/whitelist_submit/whitelistframes.png`;
 export const WHITELIST_BACKGROUND = `${CDN_ROOT}/backgroundstory/whitelistpage.png`;
 
-export const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.mp4`;
+// Static preview images (replaced the old looping MP4 previews).
+export const CENTER_PREVIEW = `${CDN_ROOT}/4sides_and_centre/553.png`;
 export const MAIN_FRAME = `${CDN_ROOT}/frames/mainframe.png`;
 export const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
 export const BUTTON_IMAGE = `${CDN_ROOT}/buttons/button-4kd.png`;
