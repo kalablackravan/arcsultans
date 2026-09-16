@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+
 
 const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
 
