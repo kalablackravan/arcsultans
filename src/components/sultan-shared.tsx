@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 
-const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
+export const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
 
 export const HOME_BACKGROUND = `${CDN_ROOT}/backgroundstory/homepage.png`;
 export const TITLE_LOGO = `${CDN_ROOT}/backgroundstory/home%20fronttext.png`;
@@ -16,6 +16,19 @@ export const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
 export const BUTTON_IMAGE = `${CDN_ROOT}/buttons/button-4kd.png`;
 export const FIELD_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/buttonframe.png`;
 export const FOLLOW_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/followed.png`;
+export const COMING_SOON_IMAGE = `${CDN_ROOT}/footer/comingsoon.png`;
+
+export const SITE_CHROME_IMAGES = [
+  `${CDN_ROOT}/footer/ARCSULTANSfootertext.png`,
+  `${CDN_ROOT}/footer/palace.png`,
+  `${CDN_ROOT}/footer/chronicles.png`,
+  `${CDN_ROOT}/footer/journey.png`,
+  `${CDN_ROOT}/footer/royalcounsel.png`,
+  `${CDN_ROOT}/footer/royalscrolls.png`,
+  `${CDN_ROOT}/footer/x-pixel-outline.svg`,
+  `${CDN_ROOT}/footer/telegram-pixel.svg`,
+  `${CDN_ROOT}/footer/opensea-pixel.svg`,
+] as const;
 
 export const SIDE_FRAMES = [
   `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
@@ -33,46 +46,72 @@ export const WHITELIST_BUTTON_BACKGROUND = {
   imageRendering: "pixelated",
 } as const;
 
-/**
- * Preloads every image a scene needs so nothing pops in one-by-one.
- * Returns true only once all of them are decoded (or after a safety timeout).
- */
+// Module-level caches survive route unmounts and prevent duplicate network waits.
+const loadedImageUrls = new Set<string>();
+const imageLoadPromises = new Map<string, Promise<void>>();
+
+function preloadImage(url: string) {
+  if (loadedImageUrls.has(url)) return Promise.resolve();
+
+  const existing = imageLoadPromises.get(url);
+  if (existing) return existing;
+
+  const promise = new Promise<void>((resolve) => {
+    const img = new window.Image();
+    let settled = false;
+    const timeout = window.setTimeout(() => finish(false), 8000);
+    const finish = (loaded: boolean) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      if (loaded) loadedImageUrls.add(url);
+      imageLoadPromises.delete(url);
+      resolve();
+    };
+
+    img.onload = () => {
+      if (typeof img.decode === "function") {
+        void img.decode().catch(() => undefined).finally(() => finish(true));
+      } else {
+        finish(true);
+      }
+    };
+    img.onerror = () => finish(false);
+    img.src = url;
+
+    if (img.complete && img.naturalWidth > 0) finish(true);
+  });
+
+  imageLoadPromises.set(url, promise);
+  return promise;
+}
+
+/** Preloads a scene once and ignores completion after its caller unmounts. */
 export function useImagesReady(urls: readonly string[]) {
-  const key = urls.join("|");
-  const [ready, setReady] = useState(false);
+  const uniqueUrls = useMemo(() => [...new Set(urls)], [urls]);
+  const key = uniqueUrls.join("|");
+  const [ready, setReady] = useState(() => uniqueUrls.every((url) => loadedImageUrls.has(url)));
 
   useEffect(() => {
     let cancelled = false;
-    let remaining = urls.length;
-    if (remaining === 0) {
+    const pendingUrls = uniqueUrls.filter((url) => !loadedImageUrls.has(url));
+
+    if (pendingUrls.length === 0) {
       setReady(true);
-      return;
+      return () => {
+        cancelled = true;
+      };
     }
+
     setReady(false);
-    const finish = () => {
-      remaining -= 1;
-      if (remaining <= 0 && !cancelled) setReady(true);
-    };
-    const safety = setTimeout(() => {
+    void Promise.all(pendingUrls.map(preloadImage)).then(() => {
       if (!cancelled) setReady(true);
-    }, 8000);
-    const loaders = urls.map((url) => {
-      const img = new window.Image();
-      img.onload = finish;
-      img.onerror = finish;
-      img.src = url;
-      return img;
     });
+
     return () => {
       cancelled = true;
-      clearTimeout(safety);
-      loaders.forEach((img) => {
-        img.onload = null;
-        img.onerror = null;
-      });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  }, [key, uniqueUrls]);
 
   return ready;
 }
@@ -90,6 +129,8 @@ export function SceneGate({
   const ready = useImagesReady(images);
   return (
     <div
+      data-scene-ready={ready ? "true" : "false"}
+      aria-busy={!ready}
       className={`${className} transition-opacity duration-300 ease-out ${
         ready ? "opacity-100" : "opacity-0"
       }`}
