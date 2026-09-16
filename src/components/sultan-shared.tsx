@@ -41,10 +41,10 @@ export const SIDE_FRAMES = [
 // Full token names shown under each corner preview, matching SIDE_FRAMES order
 // (left-top, left-bottom, right-top, right-bottom).
 export const CORNER_LABELS = [
-  "Sultan #22 — Desert Shadow",
-  "Sultan #258 — Elder of the Dynasty",
-  "Sultan #4 — Royal Commander",
-  "Sultan #45 — Sultanate Elite",
+  "Desert Shadow",
+  "Elder of the Dynasty",
+  "Royal Commander",
+  "Sultanate Elite",
 ] as const;
 
 export const WHITELIST_BUTTON_BACKGROUND = {
@@ -143,7 +143,7 @@ export function SceneGate({
     <div
       data-scene-ready={ready ? "true" : "false"}
       aria-busy={!ready}
-      className={`${className} ${
+      className={`${className} transition-opacity duration-300 ${
         ready ? "opacity-100" : "opacity-0"
       }`}
     >
