@@ -66,7 +66,10 @@ function WhitelistPage() {
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
         <SceneGate images={WHITELIST_IMAGES} className="w-full">
         {done ? (
-          <section className="state-enter mx-auto flex w-full items-center justify-center text-center">
+          <SceneGate
+            images={[confirmationFrame.url, confirmationButton.url]}
+            className="state-enter mx-auto flex w-full items-center justify-center text-center"
+          >
             <div className="relative aspect-[1637/961] w-full max-w-[900px]">
               <h1 className="sr-only">Your Throne Is Reserved</h1>
               <img
@@ -76,13 +79,19 @@ function WhitelistPage() {
               />
               <Link
                 to="/"
-                className="absolute left-[26%] top-[72%] flex aspect-[1400/248] w-[48%] items-center justify-center bg-contain bg-center bg-no-repeat px-[8%] font-display text-[clamp(8px,1.35vw,16px)] font-bold text-background transition-[filter,transform] hover:brightness-110 active:translate-y-0.5"
-                style={{ backgroundImage: `url(${confirmationButton.url})` }}
+                className="absolute left-[26%] top-[72%] flex aspect-[1400/248] w-[48%] items-center justify-center transition-[filter,transform] hover:brightness-110 active:translate-y-0.5"
               >
-                RETURN TO THE KINGDOM
+                <img
+                  src={confirmationButton.url}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
+                />
+                <span className="relative z-10 px-[8%] font-display text-[clamp(8px,1.35vw,16px)] font-bold text-background">
+                  RETURN TO THE KINGDOM
+                </span>
               </Link>
             </div>
-          </section>
+          </SceneGate>
         ) : (
           <section className="state-enter mx-auto flex w-full max-w-xl flex-col items-center justify-center">
             <div className="w-full max-w-[360px]">
