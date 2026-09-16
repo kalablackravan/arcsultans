@@ -14,7 +14,6 @@ import {
   PageBackground,
   SIDE_FRAMES,
   SceneGate,
-  SITE_CHROME_IMAGES,
   WHITELIST_BACKGROUND,
   WHITELIST_TAG,
 } from "@/components/sultan-shared";
@@ -28,7 +27,6 @@ const WHITELIST_IMAGES = [
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
   ...SIDE_FRAMES,
-  ...SITE_CHROME_IMAGES,
 ] as const;
 import { Button } from "@/components/ui/button";
 

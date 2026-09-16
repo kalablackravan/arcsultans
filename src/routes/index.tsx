@@ -7,11 +7,10 @@ import {
   PixelButtonLink,
   PageBackground,
   SceneGate,
-  SITE_CHROME_IMAGES,
   TITLE_LOGO,
 } from "@/components/sultan-shared";
 
-const HOME_IMAGES = [HOME_BACKGROUND, TITLE_LOGO, BUTTON_IMAGE, ...SITE_CHROME_IMAGES] as const;
+const HOME_IMAGES = [HOME_BACKGROUND, TITLE_LOGO, BUTTON_IMAGE] as const;
 
 export const Route = createFileRoute("/")({
   head: () => ({

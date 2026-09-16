@@ -49,14 +49,16 @@ export const WHITELIST_BUTTON_BACKGROUND = {
 // Module-level caches survive route unmounts and prevent duplicate network waits.
 const loadedImageUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
+const videoElements = new Map<string, HTMLVideoElement>();
 
 const isVideoUrl = (url: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
 
 function preloadVideo(url: string) {
   return new Promise<void>((resolve) => {
-    const video = document.createElement("video");
+    const video = videoElements.get(url) ?? document.createElement("video");
+    videoElements.set(url, video);
     let settled = false;
-    const timeout = window.setTimeout(() => finish(false), 8000);
+    const timeout = window.setTimeout(() => finish(false), 4000);
     const finish = (loaded: boolean) => {
       if (settled) return;
       settled = true;
@@ -68,11 +70,15 @@ function preloadVideo(url: string) {
 
     video.muted = true;
     video.playsInline = true;
-    video.preload = "auto";
+    video.preload = "metadata";
     video.addEventListener("loadeddata", () => finish(true), { once: true });
     video.addEventListener("error", () => finish(false), { once: true });
-    video.src = url;
-    video.load();
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      finish(true);
+    } else {
+      video.src = url;
+      video.load();
+    }
   });
 }
 
@@ -211,7 +217,8 @@ export function LoopingVideo({
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
+      onLoadedData={() => loadedImageUrls.add(src)}
       aria-label={label}
       aria-hidden={label ? undefined : true}
       className={className}

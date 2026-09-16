@@ -3,10 +3,9 @@ import {
   COMING_SOON_IMAGE,
   HOME_BACKGROUND,
   SceneGate,
-  SITE_CHROME_IMAGES,
 } from "@/components/sultan-shared";
 
-const COMING_SOON_IMAGES = [HOME_BACKGROUND, COMING_SOON_IMAGE, ...SITE_CHROME_IMAGES] as const;
+const COMING_SOON_IMAGES = [HOME_BACKGROUND, COMING_SOON_IMAGE] as const;
 
 type ComingSoonPageProps = {
   title: string;
