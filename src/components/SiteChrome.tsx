@@ -28,7 +28,7 @@ export function SiteFooter() {
           <p className="mt-2 text-[9px] leading-4 text-footer-copy sm:text-[10px]">Mint Coming Soon · ARC MAINNET</p>
         </div>
 
-        <div className="min-w-0 lg:px-5">
+        <div className="min-w-0 lg:px-5 lg:-translate-x-10">
           <nav aria-label="Footer navigation" className="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] text-footer-copy sm:gap-x-4">
             {[
               { label: "Palace", to: "/" as const, search: { view: "home" }, image: `${CDN_ROOT}/footer/palace.png` },
