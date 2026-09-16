@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/whitelist")({
   head: () => ({
     meta: [
-      { title: "Whitelist — ARCSultans" },
+      { title: "ARCSultans" },
       {
         name: "description",
         content:

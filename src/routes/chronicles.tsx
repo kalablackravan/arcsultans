@@ -6,7 +6,7 @@ import { ComingSoonPage } from "@/components/ComingSoonPage";
 export const Route = createFileRoute("/chronicles")({
   head: () => ({
     meta: [
-      { title: "Chronicles — ARCSultans" },
+      { title: "ARCSultans" },
       { name: "description", content: "The ARCSultans chronicles are coming soon." },
       { property: "og:title", content: "Chronicles — ARCSultans" },
       { property: "og:description", content: "The ARCSultans chronicles are coming soon." },

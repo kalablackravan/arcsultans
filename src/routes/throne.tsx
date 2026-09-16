@@ -13,7 +13,7 @@ import {
 export const Route = createFileRoute("/throne")({
   head: () => ({
     meta: [
-      { title: "Claim Your Throne — ARCSultans" },
+      { title: "ARCSultans" },
       {
         name: "description",
         content:
