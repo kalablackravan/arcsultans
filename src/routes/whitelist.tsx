@@ -2,12 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
-import confirmationFrame from "@/assets/whitelistconfirrmations.png.asset.json";
-import confirmationButton from "@/assets/pixel-button-8x.png.asset.json";
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import { WhitelistForm } from "@/components/WhitelistForm";
 import {
   BUTTON_IMAGE,
+  CDN_ROOT,
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
@@ -18,6 +17,9 @@ import {
   WHITELIST_TAG,
 } from "@/components/sultan-shared";
 
+const CONFIRMATION_FRAME = `${CDN_ROOT}/whitelist_submit/whitelistconfirrmations.png`;
+const CONFIRMATION_BUTTON = `${CDN_ROOT}/whitelist_submit/pixel-button-8x.png`;
+
 const WHITELIST_IMAGES = [
   WHITELIST_BACKGROUND,
   WHITELIST_TAG,
@@ -26,8 +28,8 @@ const WHITELIST_IMAGES = [
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
-  confirmationFrame.url,
-  confirmationButton.url,
+  CONFIRMATION_FRAME,
+  CONFIRMATION_BUTTON,
 ] as const;
 
 export const Route = createFileRoute("/whitelist")({
@@ -67,13 +69,13 @@ function WhitelistPage() {
         <SceneGate images={WHITELIST_IMAGES} className="w-full">
         {done ? (
           <SceneGate
-            images={[confirmationFrame.url, confirmationButton.url]}
+            images={[CONFIRMATION_FRAME, CONFIRMATION_BUTTON]}
             className="state-enter mx-auto flex w-full items-center justify-center text-center"
           >
             <div className="relative aspect-[1637/961] w-full max-w-[900px]">
               <h1 className="sr-only">Your Throne Is Reserved</h1>
               <img
-                src={confirmationFrame.url}
+                 src={CONFIRMATION_FRAME}
                 alt="Details recorded. Your Throne Is Reserved. Your details have been recorded. Welcome to the dynasty."
                 className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
               />
@@ -82,7 +84,7 @@ function WhitelistPage() {
                 className="absolute left-[26%] top-[72%] flex aspect-[1400/248] w-[48%] items-center justify-center transition-[filter,transform] hover:brightness-110 active:translate-y-0.5"
               >
                 <img
-                  src={confirmationButton.url}
+                   src={CONFIRMATION_BUTTON}
                   alt=""
                   className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
                 />
