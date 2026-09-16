@@ -8,13 +8,11 @@ import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import { WhitelistForm } from "@/components/WhitelistForm";
 import {
   BUTTON_IMAGE,
-  CornerGifs,
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
   PANEL_FRAME,
   PageBackground,
-  SIDE_FRAMES,
   SceneGate,
   WHITELIST_BACKGROUND,
   WHITELIST_TAG,
@@ -28,7 +26,6 @@ const WHITELIST_IMAGES = [
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
   FOUR_FRAMES,
-  ...SIDE_FRAMES,
   confirmationFrame.url,
   confirmationButton.url,
 ] as const;
@@ -68,7 +65,6 @@ function WhitelistPage() {
       {/* Content — fills the available viewport above the footer */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
         <SceneGate images={WHITELIST_IMAGES} className="w-full">
-        <CornerGifs />
         {done ? (
           <section className="state-enter mx-auto flex w-full items-center justify-center text-center">
             <div className="relative aspect-[1637/961] w-full max-w-[900px]">
