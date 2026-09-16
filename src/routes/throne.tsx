@@ -6,7 +6,6 @@ import {
   CENTER_PREVIEW,
   CornerGifs,
   FOUR_FRAMES,
-  LoopingVideo,
   MAIN_FRAME,
   PageBackground,
   PixelButtonLink,
@@ -72,9 +71,9 @@ function ThronePage() {
 
             <div className="flex flex-col items-center px-4">
               <div className="relative aspect-square w-full max-w-sm sm:max-w-md">
-                <LoopingVideo
+                <img
                   src={CENTER_PREVIEW}
-                  label="Animated ARCSultans NFT collection preview"
+                  alt="ARCSultans — Sultan #553"
                   className="absolute left-[32.3%] top-[29.03%] h-[34.61%] w-[35.41%] object-cover [image-rendering:pixelated]"
                 />
                 <img
@@ -82,6 +81,9 @@ function ThronePage() {
                   alt=""
                   className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
                 />
+                <span className="absolute left-[32.3%] top-[69%] w-[35.41%] text-center font-display text-[10px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-xs">
+                  Sultan #553
+                </span>
                 <PixelButtonLink
                   to="/whitelist"
                   className="absolute left-[20%] top-[72.5%] h-[12%] w-[60%] text-[10px] sm:text-xs"
