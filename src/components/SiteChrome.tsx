@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { CDN_ROOT, SceneGate, SITE_CHROME_IMAGES } from "@/components/sultan-shared";
+import { CDN_ROOT } from "@/components/sultan-shared";
 
 const FOOTER_LOGO = `${CDN_ROOT}/footer/ARCSULTANSfootertext.png`;
 
@@ -23,7 +23,6 @@ export function TopStatus() {
 export function SiteFooter() {
   return (
     <footer className="relative z-20 w-full shrink-0 border-t-2 border-footer-border bg-footer-surface font-display text-footer-copy">
-      <SceneGate images={SITE_CHROME_IMAGES}>
       <div className="mx-auto grid w-full max-w-[1536px] gap-x-8 gap-y-5 px-5 py-5 sm:px-8 lg:grid-cols-[minmax(190px,1fr)_minmax(360px,2fr)_auto] lg:items-center lg:px-10 lg:py-4">
         <div className="min-w-0">
           <img src={FOOTER_LOGO} alt="ARCSultans" className="h-7 w-auto max-w-full object-contain [image-rendering:pixelated] sm:h-8" />
@@ -89,7 +88,6 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
-      </SceneGate>
     </footer>
   );
 }
