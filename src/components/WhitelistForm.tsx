@@ -12,8 +12,9 @@ const FIELD_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/buttonframe.png`;
 const FOLLOW_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/followed.png`;
 
 const WALLET_RE = /^0x[a-fA-F0-9]{40}$/;
-// Direct comment link: https://x.com/USERNAME/status/123 or https://twitter.com/USERNAME/status/123
-const X_COMMENT_RE = /^https:\/\/(?:x\.com|twitter\.com)\/([A-Za-z0-9_]+)\/status\/\d+$/;
+// Direct comment link: https://x.com/USERNAME/status/123 (optional ?s=20 tracking params, /photo/1 suffix, www./mobile. prefix)
+const X_COMMENT_RE =
+  /^https:\/\/(?:www\.|mobile\.|m\.)?(?:x\.com|twitter\.com)\/([A-Za-z0-9_]+)\/status(?:es)?\/\d+(?:\/[A-Za-z0-9/_-]*)?\/?(?:[?#].*)?$/i;
 
 // Sprite-crop frames: the artwork has transparent margins baked into the
 // source image, so we render only the art region at its native aspect ratio —
