@@ -91,7 +91,7 @@ export function SceneGate({
         ready ? "opacity-100" : "opacity-0"
       }`}
     >
-      {ready ? children : <div aria-hidden className="invisible">{children}</div>}
+      {children}
     </div>
   );
 }
