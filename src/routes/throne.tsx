@@ -5,7 +5,6 @@ import {
   BUTTON_IMAGE,
   CENTER_PREVIEW,
   CornerGifs,
-  FOUR_FRAMES,
   MAIN_FRAME,
   PageBackground,
   PixelButtonLink,
@@ -15,14 +14,14 @@ import {
   WHITELIST_BACKGROUND,
 } from "@/components/sultan-shared";
 
+// Only assets that are actually painted on every breakpoint gate the reveal.
+// The corner previews are `hidden lg:block`, so phones must not wait on them.
 const THRONE_IMAGES = [
   WHITELIST_BACKGROUND,
   TITLE_LOGO,
   CENTER_PREVIEW,
   MAIN_FRAME,
   BUTTON_IMAGE,
-  FOUR_FRAMES,
-  ...SIDE_FRAMES,
 ] as const;
 
 export const Route = createFileRoute("/throne")({

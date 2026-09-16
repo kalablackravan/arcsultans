@@ -9,7 +9,6 @@ import {
   CDN_ROOT,
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
-  FOUR_FRAMES,
   PANEL_FRAME,
   PageBackground,
   SceneGate,
@@ -27,10 +26,12 @@ const WHITELIST_IMAGES = [
   BUTTON_IMAGE,
   FIELD_FRAME_IMAGE,
   FOLLOW_FRAME_IMAGE,
-  FOUR_FRAMES,
-  CONFIRMATION_FRAME,
-  CONFIRMATION_BUTTON,
 ] as const;
+
+// Post-submit view only; kept out of the main gate so the form is never held
+// back by assets it does not render. Hoisted to module scope so the inner
+// SceneGate does not receive a fresh array on every render.
+const CONFIRMATION_IMAGES = [CONFIRMATION_FRAME, CONFIRMATION_BUTTON] as const;
 
 export const Route = createFileRoute("/whitelist")({
   head: () => ({
@@ -69,7 +70,7 @@ function WhitelistPage() {
         <SceneGate images={WHITELIST_IMAGES} className="w-full">
         {done ? (
           <SceneGate
-            images={[CONFIRMATION_FRAME, CONFIRMATION_BUTTON]}
+            images={CONFIRMATION_IMAGES}
             className="state-enter mx-auto flex w-full items-center justify-center text-center"
           >
             <div className="relative aspect-[1637/961] w-full max-w-[900px]">

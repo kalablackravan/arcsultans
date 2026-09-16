@@ -70,16 +70,22 @@ function preloadImage(url: string) {
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
     let settled = false;
-    const timeout = window.setTimeout(() => finish(false), 8000);
+
     const finish = (loaded: boolean) => {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeout);
-      settledAssetUrls.add(url);
-      if (loaded) loadedImageUrls.add(url);
       imageLoadPromises.delete(url);
+      // Only cache successes. A failed/slow load must stay retryable, otherwise a
+      // single flaky request (common on mobile data) permanently breaks that image.
+      if (loaded) {
+        settledAssetUrls.add(url);
+        loadedImageUrls.add(url);
+      }
       resolve();
     };
+
+    const timeout = window.setTimeout(() => finish(false), 2500);
 
     img.onload = () => {
       if (typeof img.decode === "function") {
@@ -100,19 +106,23 @@ function preloadImage(url: string) {
 
 /** Preloads a scene once and ignores completion after its caller unmounts. */
 export function useImagesReady(urls: readonly string[]) {
-  const uniqueUrls = useMemo(() => [...new Set(urls)], [urls]);
-  const key = uniqueUrls.join("|");
-  const [ready, setReady] = useState(() => uniqueUrls.every((url) => settledAssetUrls.has(url)));
+  // `key` is a stable string. Depending on the array identity instead caused the
+  // effect to re-run on every render whenever a caller passed an inline array
+  // literal, which fed a setState -> render -> effect loop and pinned the CPU.
+  const key = useMemo(() => [...new Set(urls)].join("|"), [urls]);
+
+  const [ready, setReady] = useState(() =>
+    key.split("|").every((url) => !url || settledAssetUrls.has(url)),
+  );
 
   useEffect(() => {
     let cancelled = false;
+    const uniqueUrls = key.split("|").filter(Boolean);
     const pendingUrls = uniqueUrls.filter((url) => !settledAssetUrls.has(url));
 
     if (pendingUrls.length === 0) {
       setReady(true);
-      return () => {
-        cancelled = true;
-      };
+      return;
     }
 
     setReady(false);
@@ -123,7 +133,7 @@ export function useImagesReady(urls: readonly string[]) {
     return () => {
       cancelled = true;
     };
-  }, [key, uniqueUrls]);
+  }, [key]);
 
   return ready;
 }
@@ -144,7 +154,7 @@ export function SceneGate({
       data-scene-ready={ready ? "true" : "false"}
       aria-busy={!ready}
       className={`${className} transition-opacity duration-300 ${
-        ready ? "opacity-100" : "opacity-0"
+        ready ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
       {children}
