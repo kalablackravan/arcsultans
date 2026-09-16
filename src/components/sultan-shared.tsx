@@ -175,47 +175,25 @@ export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   );
 }
 
-export function LoopingVideo({
-  src,
-  className,
-  label,
-}: {
-  src: string;
-  className: string;
-  label?: string;
-}) {
-  return (
-    <video
-      src={src}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="metadata"
-      onLoadedData={() => {
-        loadedImageUrls.add(src);
-        settledAssetUrls.add(src);
-      }}
-      aria-label={label}
-      aria-hidden={label ? undefined : true}
-      className={className}
-    />
-  );
-}
-
+/** Corner preview: static image with the same frame overlay, plus a token label underneath. */
 export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
   return (
-    <div className="relative h-24 w-24 overflow-hidden">
-      <LoopingVideo
-        src={gif}
-        label={`Animated ARCSultans NFT preview ${slot + 1}`}
-        className="absolute inset-0 h-full w-full object-cover [image-rendering:pixelated]"
-      />
-      <img
-        src={FOUR_FRAMES}
-        alt=""
-        className="absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain [image-rendering:pixelated]"
-      />
+    <div className="flex flex-col items-center">
+      <div className="relative h-24 w-24 overflow-hidden">
+        <img
+          src={gif}
+          alt={`ARCSultans preview ${CORNER_LABELS[slot]}`}
+          className="absolute inset-0 h-full w-full object-cover [image-rendering:pixelated]"
+        />
+        <img
+          src={FOUR_FRAMES}
+          alt=""
+          className="absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain [image-rendering:pixelated]"
+        />
+      </div>
+      <span className="mt-1 text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)]">
+        {CORNER_LABELS[slot]}
+      </span>
     </div>
   );
 }
@@ -223,16 +201,16 @@ export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
 export function CornerGifs() {
   return (
     <>
-      <div className="fixed left-40 top-20 z-10 hidden h-24 w-24 lg:block">
+      <div className="fixed left-40 top-20 z-10 hidden w-24 lg:block">
         <SideGifPreview gif={SIDE_FRAMES[0]} slot={0} />
       </div>
-      <div className="fixed bottom-32 left-40 z-10 hidden h-24 w-24 lg:block">
+      <div className="fixed bottom-32 left-40 z-10 hidden w-24 lg:block">
         <SideGifPreview gif={SIDE_FRAMES[1]} slot={1} />
       </div>
-      <div className="fixed right-40 top-20 z-10 hidden h-24 w-24 lg:block">
+      <div className="fixed right-40 top-20 z-10 hidden w-24 lg:block">
         <SideGifPreview gif={SIDE_FRAMES[2]} slot={2} />
       </div>
-      <div className="fixed bottom-32 right-40 z-10 hidden h-24 w-24 lg:block">
+      <div className="fixed bottom-32 right-40 z-10 hidden w-24 lg:block">
         <SideGifPreview gif={SIDE_FRAMES[3]} slot={3} />
       </div>
     </>
