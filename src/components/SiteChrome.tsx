@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
-const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
+import { CDN_ROOT } from "@/components/sultan-shared";
+
 const FOOTER_LOGO = `${CDN_ROOT}/footer/ARCSULTANSfootertext.png`;
 
 export function TopStatus() {

@@ -11,6 +11,7 @@ import {
   PixelButtonLink,
   SceneGate,
   SIDE_FRAMES,
+  SITE_CHROME_IMAGES,
   TITLE_LOGO,
   WHITELIST_BACKGROUND,
 } from "@/components/sultan-shared";
@@ -23,6 +24,7 @@ const THRONE_IMAGES = [
   BUTTON_IMAGE,
   FOUR_FRAMES,
   ...SIDE_FRAMES,
+  ...SITE_CHROME_IMAGES,
 ] as const;
 
 export const Route = createFileRoute("/throne")({
