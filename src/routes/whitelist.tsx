@@ -5,11 +5,29 @@ import { useState } from "react";
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 import { WhitelistForm } from "@/components/WhitelistForm";
 import {
+  BUTTON_IMAGE,
   CornerGifs,
+  FIELD_FRAME_IMAGE,
+  FOLLOW_FRAME_IMAGE,
+  FOUR_FRAMES,
   PANEL_FRAME,
   PageBackground,
+  SIDE_FRAMES,
+  SceneGate,
+  WHITELIST_BACKGROUND,
   WHITELIST_TAG,
 } from "@/components/sultan-shared";
+
+const WHITELIST_IMAGES = [
+  WHITELIST_BACKGROUND,
+  WHITELIST_TAG,
+  PANEL_FRAME,
+  BUTTON_IMAGE,
+  FIELD_FRAME_IMAGE,
+  FOLLOW_FRAME_IMAGE,
+  FOUR_FRAMES,
+  ...SIDE_FRAMES,
+] as const;
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/whitelist")({
@@ -43,10 +61,11 @@ function WhitelistPage() {
 
       <TopStatus />
 
-      <CornerGifs />
 
       {/* Content — fills the available viewport above the footer */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
+        <SceneGate images={WHITELIST_IMAGES} className="w-full">
+        <CornerGifs />
         {done ? (
           <section className="state-enter mx-auto flex w-full max-w-2xl items-center justify-center text-center">
             <div className="success-panel relative w-full border-4 border-accent bg-popover/95 px-5 py-8 pixel-shadow sm:px-10 sm:py-10">
@@ -104,6 +123,7 @@ function WhitelistPage() {
             </div>
           </section>
         )}
+        </SceneGate>
       </div>
 
       <SiteFooter />
