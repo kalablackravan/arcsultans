@@ -58,7 +58,10 @@ function preloadImage(url: string) {
 
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
+    let settled = false;
     const finish = (loaded: boolean) => {
+      if (settled) return;
+      settled = true;
       if (loaded) loadedImageUrls.add(url);
       imageLoadPromises.delete(url);
       resolve();
