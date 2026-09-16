@@ -77,7 +77,7 @@ function WhitelistPage() {
               <img
                  src={CONFIRMATION_FRAME}
                 alt="Details recorded. Your Throne Is Reserved. Your details have been recorded. Welcome to the dynasty."
-                className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
+                className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain [image-rendering:pixelated]"
               />
               <Link
                 to="/"

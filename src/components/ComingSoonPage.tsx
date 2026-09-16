@@ -18,9 +18,9 @@ export function ComingSoonPage({ title }: ComingSoonPageProps) {
         src={HOME_BACKGROUND}
         alt=""
         aria-hidden="true"
-        className="fixed inset-0 h-full w-full object-cover object-center [image-rendering:pixelated]"
+        className="pointer-events-none fixed inset-0 h-full w-full select-none object-cover object-center [image-rendering:pixelated]"
       />
-      <div aria-hidden="true" className="fixed inset-0 bg-background/55" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 bg-background/55" />
 
       <TopStatus />
 
