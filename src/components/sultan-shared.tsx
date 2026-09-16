@@ -195,12 +195,36 @@ export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   );
 }
 
+export function LoopingVideo({
+  src,
+  className,
+  label,
+}: {
+  src: string;
+  className: string;
+  label?: string;
+}) {
+  return (
+    <video
+      src={src}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      className={className}
+    />
+  );
+}
+
 export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
   return (
     <div className="relative h-24 w-24 overflow-hidden">
-      <img
+      <LoopingVideo
         src={gif}
-        alt={`Animated ARCSultans NFT preview ${slot + 1}`}
+        label={`Animated ARCSultans NFT preview ${slot + 1}`}
         className="absolute inset-0 h-full w-full object-cover [image-rendering:pixelated]"
       />
       <img
