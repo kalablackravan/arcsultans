@@ -50,11 +50,43 @@ export const WHITELIST_BUTTON_BACKGROUND = {
 const loadedImageUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
 
+const isVideoUrl = (url: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
+
+function preloadVideo(url: string) {
+  return new Promise<void>((resolve) => {
+    const video = document.createElement("video");
+    let settled = false;
+    const timeout = window.setTimeout(() => finish(false), 8000);
+    const finish = (loaded: boolean) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      if (loaded) loadedImageUrls.add(url);
+      imageLoadPromises.delete(url);
+      resolve();
+    };
+
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.addEventListener("loadeddata", () => finish(true), { once: true });
+    video.addEventListener("error", () => finish(false), { once: true });
+    video.src = url;
+    video.load();
+  });
+}
+
 function preloadImage(url: string) {
   if (loadedImageUrls.has(url)) return Promise.resolve();
 
   const existing = imageLoadPromises.get(url);
   if (existing) return existing;
+
+  if (isVideoUrl(url)) {
+    const videoPromise = preloadVideo(url);
+    imageLoadPromises.set(url, videoPromise);
+    return videoPromise;
+  }
 
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
