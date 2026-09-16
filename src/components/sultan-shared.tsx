@@ -13,6 +13,9 @@ export const WHITELIST_BACKGROUND = `${CDN_ROOT}/backgroundstory/whitelistpage.p
 export const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.gif`;
 export const MAIN_FRAME = `${CDN_ROOT}/frames/mainframe.png`;
 export const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
+export const BUTTON_IMAGE = `${CDN_ROOT}/buttons/button-4kd.png`;
+export const FIELD_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/buttonframe.png`;
+export const FOLLOW_FRAME_IMAGE = `${CDN_ROOT}/whitelist_submit/followed.png`;
 
 export const SIDE_FRAMES = [
   `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
