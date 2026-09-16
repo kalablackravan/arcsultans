@@ -59,7 +59,7 @@ function preloadVideo(url: string) {
     const video = videoElements.get(url) ?? document.createElement("video");
     videoElements.set(url, video);
     let settled = false;
-    const timeout = window.setTimeout(() => finish(false), 2000);
+    const timeout = window.setTimeout(() => finish(false), 5000);
     const finish = (loaded: boolean) => {
       if (settled) return;
       settled = true;
@@ -72,7 +72,7 @@ function preloadVideo(url: string) {
 
     video.muted = true;
     video.playsInline = true;
-    video.preload = "metadata";
+    video.preload = "auto";
     video.addEventListener("loadeddata", () => finish(true), { once: true });
     video.addEventListener("error", () => finish(false), { once: true });
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
