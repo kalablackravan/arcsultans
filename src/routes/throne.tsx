@@ -6,6 +6,7 @@ import {
   CENTER_PREVIEW,
   CornerGifs,
   FOUR_FRAMES,
+  LoopingVideo,
   MAIN_FRAME,
   PageBackground,
   PixelButtonLink,
@@ -73,9 +74,9 @@ function ThronePage() {
 
             <div className="flex flex-col items-center px-4">
               <div className="relative aspect-square w-full max-w-sm sm:max-w-md">
-                <img
+                <LoopingVideo
                   src={CENTER_PREVIEW}
-                  alt="Animated ARCSultans NFT collection preview"
+                  label="Animated ARCSultans NFT collection preview"
                   className="absolute left-[32.3%] top-[29.03%] h-[34.61%] w-[35.41%] object-cover [image-rendering:pixelated]"
                 />
                 <img

@@ -10,7 +10,7 @@ export const WHITELIST_TAG = `${CDN_ROOT}/whitelist_submit/whitelistag.png`;
 export const PANEL_FRAME = `${CDN_ROOT}/whitelist_submit/whitelistframes.png`;
 export const WHITELIST_BACKGROUND = `${CDN_ROOT}/backgroundstory/whitelistpage.png`;
 
-export const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.gif`;
+export const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.mp4`;
 export const MAIN_FRAME = `${CDN_ROOT}/frames/mainframe.png`;
 export const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
 export const BUTTON_IMAGE = `${CDN_ROOT}/buttons/button-4kd.png`;
@@ -31,10 +31,10 @@ export const SITE_CHROME_IMAGES = [
 ] as const;
 
 export const SIDE_FRAMES = [
-  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.gif`,
+  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.mp4`,
+  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.mp4`,
 ] as const;
 
 export const WHITELIST_BUTTON_BACKGROUND = {
@@ -50,11 +50,43 @@ export const WHITELIST_BUTTON_BACKGROUND = {
 const loadedImageUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
 
+const isVideoUrl = (url: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
+
+function preloadVideo(url: string) {
+  return new Promise<void>((resolve) => {
+    const video = document.createElement("video");
+    let settled = false;
+    const timeout = window.setTimeout(() => finish(false), 8000);
+    const finish = (loaded: boolean) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      if (loaded) loadedImageUrls.add(url);
+      imageLoadPromises.delete(url);
+      resolve();
+    };
+
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.addEventListener("loadeddata", () => finish(true), { once: true });
+    video.addEventListener("error", () => finish(false), { once: true });
+    video.src = url;
+    video.load();
+  });
+}
+
 function preloadImage(url: string) {
   if (loadedImageUrls.has(url)) return Promise.resolve();
 
   const existing = imageLoadPromises.get(url);
   if (existing) return existing;
+
+  if (isVideoUrl(url)) {
+    const videoPromise = preloadVideo(url);
+    imageLoadPromises.set(url, videoPromise);
+    return videoPromise;
+  }
 
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
@@ -163,12 +195,36 @@ export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   );
 }
 
+export function LoopingVideo({
+  src,
+  className,
+  label,
+}: {
+  src: string;
+  className: string;
+  label?: string;
+}) {
+  return (
+    <video
+      src={src}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      className={className}
+    />
+  );
+}
+
 export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
   return (
     <div className="relative h-24 w-24 overflow-hidden">
-      <img
+      <LoopingVideo
         src={gif}
-        alt={`Animated ARCSultans NFT preview ${slot + 1}`}
+        label={`Animated ARCSultans NFT preview ${slot + 1}`}
         className="absolute inset-0 h-full w-full object-cover [image-rendering:pixelated]"
       />
       <img
