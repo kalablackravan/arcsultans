@@ -25,7 +25,7 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-[1536px] gap-x-8 gap-y-5 px-5 py-5 sm:px-8 lg:grid-cols-[minmax(190px,1fr)_minmax(360px,2fr)_auto] lg:items-center lg:px-10 lg:py-4">
         <div className="min-w-0">
           <img src={FOOTER_LOGO} alt="ARCSultans" className="h-7 w-auto max-w-full object-contain [image-rendering:pixelated] sm:h-8" />
-          <p className="mt-2 text-[9px] leading-4 text-footer-copy sm:text-[10px]">Mint 16 September 2026 · ARC MAINNET</p>
+          <p className="mt-2 text-[9px] leading-4 text-footer-copy sm:text-[10px]">Mint Coming Soon · ARC MAINNET</p>
         </div>
 
         <div className="min-w-0 lg:px-5">
