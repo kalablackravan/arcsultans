@@ -79,7 +79,7 @@ function ThronePage() {
                 <img
                   src={MAIN_FRAME}
                   alt=""
-                  className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
+                  className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain [image-rendering:pixelated]"
                 />
                 <span className="absolute left-1/2 top-[69%] -translate-x-1/2 whitespace-nowrap text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-[11px]">
                   The Crowned Sultan

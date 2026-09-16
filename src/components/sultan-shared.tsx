@@ -155,7 +155,7 @@ export function SceneGate({
 export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   const isHome = variant === "home";
   return (
-    <div aria-hidden className="fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <img
         src={HOME_BACKGROUND}
         alt=""
@@ -188,7 +188,7 @@ export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
         <img
           src={FOUR_FRAMES}
           alt=""
-          className="absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain [image-rendering:pixelated]"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 select-none object-contain [image-rendering:pixelated]"
         />
       </div>
       <span className="mt-1 whitespace-nowrap text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)]">
