@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -268,10 +268,23 @@ function Index() {
 
           <div className="min-w-0 lg:px-5">
             <nav aria-label="Footer navigation" className="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] text-footer-copy sm:gap-x-4">
-              {['Home', 'Lore', 'Roadmap', 'FAQ', 'Whitepaper'].map((label, index) => (
-                <span key={label} className="contents">
+              {[
+                { label: "Palace", to: "/" },
+                { label: "Chronicles", to: "/chronicles" },
+                { label: "Journey", to: "/journey" },
+                { label: "Royal Counsel", to: "/royal-counsel" },
+                { label: "Royal Scrolls", to: "/royal-scrolls" },
+              ].map((item, index) => (
+                <span key={item.label} className="contents">
                   {index > 0 && <span aria-hidden className="text-footer-divider">|</span>}
-                  <span className={label === 'Home' ? 'text-footer-title' : undefined}>{label}</span>
+                  <Link
+                    to={item.to}
+                    className="transition-colors hover:text-footer-title focus-visible:text-footer-title focus-visible:outline-none"
+                    activeProps={{ className: "text-footer-title" }}
+                    activeOptions={{ exact: true }}
+                  >
+                    {item.label}
+                  </Link>
                 </span>
               ))}
             </nav>
