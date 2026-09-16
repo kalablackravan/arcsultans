@@ -1,95 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import { SiteFooter, TopStatus } from "@/components/SiteChrome";
-import { WhitelistForm } from "@/components/WhitelistForm";
-const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
-
-const HOME_BACKGROUND = `${CDN_ROOT}/backgroundstory/homepage.png`;
-const TITLE_LOGO = `${CDN_ROOT}/backgroundstory/home%20fronttext.png`;
-const THRONE_BUTTON = `${CDN_ROOT}/buttons/button-4kd.png`;
-const WHITELIST_TAG = `${CDN_ROOT}/whitelist_submit/whitelistag.png`;
-const PANEL_FRAME = `${CDN_ROOT}/whitelist_submit/whitelistframes.png`;
-const WHITELIST_BUTTON_BACKGROUND = {
-  backgroundColor: "transparent",
-  backgroundImage: `url(${THRONE_BUTTON})`,
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "100% 100%",
-  imageRendering: "pixelated",
-} as const;
-const WHITELIST_BACKGROUND = `${CDN_ROOT}/backgroundstory/whitelistpage.png`;
-
-const CENTER_PREVIEW = `${CDN_ROOT}/layers/arcsultans_mixed_100.gif`;
-const MAIN_FRAME = `${CDN_ROOT}/frames/mainframe.png`;
-const FOUR_FRAMES = `${CDN_ROOT}/frames/fourframes.png`;
-
-const SIDE_FRAMES = [
-  `${CDN_ROOT}/layers/arcsultans_arc_backgound_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_magma_burst_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_sky_blue_100.gif`,
-  `${CDN_ROOT}/layers/arcsultans_solid_slate_gray_100.gif`,
-] as const;
-
-function StateBackground({ isWhitelist }: { isWhitelist: boolean }) {
-  return (
-    <div aria-hidden className="fixed inset-0 z-0 overflow-hidden">
-      <img
-        src={HOME_BACKGROUND}
-        alt=""
-        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] transition-opacity duration-700 ease-in-out ${
-          isWhitelist ? "opacity-0" : "opacity-100"
-        }`}
-      />
-      <img
-        src={WHITELIST_BACKGROUND}
-        alt=""
-        className={`absolute inset-0 h-full w-full object-cover object-center [image-rendering:pixelated] transition-opacity duration-700 ease-in-out ${
-          isWhitelist ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      <div className={`absolute inset-0 bg-background ${isWhitelist ? "opacity-45" : "opacity-10"}`} />
-    </div>
-  );
-}
-
-function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
-  return (
-    <div className="relative h-24 w-24 overflow-hidden">
-      <img
-        src={gif}
-        alt={`Animated ARCSultans NFT preview ${slot + 1}`}
-        className="absolute inset-0 h-full w-full object-cover [image-rendering:pixelated]"
-      />
-      <img
-        src={FOUR_FRAMES}
-        alt=""
-        className="absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain [image-rendering:pixelated]"
-      />
-    </div>
-  );
-}
-
-type HomeView = "home" | "whitelist" | "form" | "success";
-const HOME_VIEWS: HomeView[] = ["home", "whitelist", "form", "success"];
+import {
+  PixelButtonLink,
+  PageBackground,
+  TITLE_LOGO,
+} from "@/components/sultan-shared";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>): { view?: string } =>
-    typeof search["view"] === "string" ? { view: search["view"] } : {},
   head: () => ({
     meta: [
-      { title: "ARCSultans — NFT Whitelist Signup" },
+      { title: "ARCSultans — 999 Sultans Arriving on ARC" },
       {
         name: "description",
         content:
-          "Secure your spot on the ARCSultans whitelist. Mint 16 September 2026 — join the golden dynasty on ARC.",
+          "999 Sultans arriving on ARC. Claim your throne before the gates close.",
       },
-      { property: "og:title", content: "ARCSultans — NFT Whitelist Signup" },
+      { property: "og:title", content: "ARCSultans — 999 Sultans Arriving on ARC" },
       {
         property: "og:description",
-        content:
-          "Secure your spot on the ARCSultans whitelist. Mint 16 September 2026 — join the golden dynasty on ARC.",
+        content: "999 Sultans arriving on ARC. Claim your throne before the gates close.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -99,162 +29,31 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { view: viewParam } = Route.useSearch();
-  const [view, setView] = useState<HomeView>("home");
-
-  // Sync from the URL (e.g. footer "Palace" link navigating to /?view=home)
-  useEffect(() => {
-    if (viewParam && HOME_VIEWS.includes(viewParam as HomeView)) {
-      setView(viewParam as HomeView);
-    }
-  }, [viewParam]);
-
-  const isWhitelist = view === "whitelist";
-
   return (
     <main id="top" className="relative flex min-h-dvh flex-col overflow-hidden bg-background">
-      <StateBackground isWhitelist={isWhitelist || view === "form"} />
+      <PageBackground variant="home" />
 
       <TopStatus />
 
-      {/* 4 corner GIF preview boxes — anchored to viewport corners (whitelist + form states, lg+) */}
-      {(isWhitelist || view === "form") && (
-        <>
-          <div className="fixed left-40 top-20 z-10 hidden h-24 w-24 lg:block">
-            <SideGifPreview gif={SIDE_FRAMES[0]} slot={0} />
-          </div>
-          <div className="fixed bottom-32 left-40 z-10 hidden h-24 w-24 lg:block">
-            <SideGifPreview gif={SIDE_FRAMES[1]} slot={1} />
-          </div>
-          <div className="fixed right-40 top-20 z-10 hidden h-24 w-24 lg:block">
-            <SideGifPreview gif={SIDE_FRAMES[2]} slot={2} />
-          </div>
-          <div className="fixed bottom-32 right-40 z-10 hidden h-24 w-24 lg:block">
-            <SideGifPreview gif={SIDE_FRAMES[3]} slot={3} />
-          </div>
-        </>
-      )}
-
       {/* Content — fills the available viewport above the footer */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-4 py-3">
-        {view === "home" ? (
-          <section key="home" className="state-enter mx-auto flex h-full w-full max-w-3xl -translate-y-12 flex-col items-center justify-center pt-24 text-center sm:-translate-y-16 sm:pt-28">
-            <h1 className="sr-only">ARCSultans</h1>
-            <img
-              src={TITLE_LOGO}
-              alt="ARCSultans"
-              className="w-full max-w-lg object-contain [image-rendering:pixelated] sm:max-w-xl"
-            />
-            <p className="mt-4 max-w-2xl font-display text-sm font-bold leading-7 text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-lg sm:leading-8">
-              999 Sultans arriving on ARC.<br />Claim your throne before the gates close.
-            </p>
-            <Button
-              size="lg"
-              onClick={() => setView("whitelist")}
-              style={WHITELIST_BUTTON_BACKGROUND}
-              className="mt-5 h-9 w-full max-w-[250px] border-0 bg-primary px-2 font-display text-[10px] font-bold text-footer-title shadow-none hover:bg-primary/90 sm:h-10 sm:text-xs"
-            >
-              ENTER THE SULTANATE
-            </Button>
-          </section>
-        ) : view === "whitelist" ? (
-          <section key="whitelist" className="state-enter mx-auto flex w-full max-w-xl items-center justify-center">
-            <div className="w-full max-w-lg">
-              <header className="relative z-10 -mb-7 px-4 pt-1 text-center sm:-mb-10">
-                <h1 className="sr-only">ARCSultans</h1>
-                <img
-                  src={TITLE_LOGO}
-                  alt="ARCSultans"
-                  className="mx-auto h-16 w-auto max-w-full object-contain [image-rendering:pixelated] sm:h-24"
-                />
-              </header>
-
-              <div className="flex flex-col items-center px-4">
-                <div className="relative aspect-square w-full max-w-sm sm:max-w-md">
-                  <img
-                    src={CENTER_PREVIEW}
-                    alt="Animated ARCSultans NFT collection preview"
-                    className="absolute left-[32.3%] top-[29.03%] h-[34.61%] w-[35.41%] object-cover [image-rendering:pixelated]"
-                  />
-                  <img
-                    src={MAIN_FRAME}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-contain [image-rendering:pixelated]"
-                  />
-                  <Button
-                    size="lg"
-                    onClick={() => setView("form")}
-                    style={WHITELIST_BUTTON_BACKGROUND}
-                    className="absolute left-[20%] top-[72.5%] h-[12%] w-[60%] border-0 bg-primary px-2 font-display text-[10px] font-bold text-footer-title shadow-none hover:bg-primary/90 sm:text-xs"
-                  >
-                    CLAIM YOUR THRONE
-                  </Button>
-                </div>
-
-                <p className="-mt-10 text-center font-display text-[10px] font-bold leading-5 text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:-mt-12 sm:text-xs">
-                  999 Sultans. 1 Arc Sultan.<br />A golden dynasty on ARC network.
-                </p>
-              </div>
-            </div>
-          </section>
-        ) : view === "form" ? (
-          <section key="form" className="state-enter mx-auto flex w-full max-w-xl flex-col items-center justify-center">
-            <div className="w-full max-w-[360px]">
-              <header className="relative z-10 -mb-1 px-4 text-center">
-                <h1 className="sr-only">ARCSultans Whitelist</h1>
-                <img
-                  src={WHITELIST_TAG}
-                  alt="Whitelist"
-                  className="mx-auto h-16 w-auto max-w-full object-contain [image-rendering:pixelated] sm:h-20"
-                />
-              </header>
-
-              <div className="relative">
-                <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-                  <img
-                    src={PANEL_FRAME}
-                    alt=""
-                    className="absolute max-w-none [image-rendering:pixelated]"
-                    style={{ width: "107%", height: "111.7%", left: "-3.45%", top: "-5.82%" }}
-                  />
-                </div>
-                <div className="relative z-10 px-5 py-5 sm:px-6 sm:py-6">
-                  <WhitelistForm onDone={() => setView("success")} />
-                </div>
-              </div>
-            </div>
-          </section>
-        ) : (
-          <section key="success" className="state-enter mx-auto flex w-full max-w-2xl items-center justify-center text-center">
-            <div className="success-panel relative w-full border-4 border-accent bg-popover/95 px-5 py-8 pixel-shadow sm:px-10 sm:py-10">
-              <span aria-hidden className="absolute left-3 top-3 h-3 w-3 border-l-2 border-t-2 border-accent" />
-              <span aria-hidden className="absolute right-3 top-3 h-3 w-3 border-r-2 border-t-2 border-accent" />
-              <span aria-hidden className="absolute bottom-3 left-3 h-3 w-3 border-b-2 border-l-2 border-accent" />
-              <span aria-hidden className="absolute bottom-3 right-3 h-3 w-3 border-b-2 border-r-2 border-accent" />
-              <div className="mx-auto mb-5 w-fit border-2 border-accent bg-accent/10 px-3 py-2 font-display text-[9px] font-bold text-accent sm:text-[10px]">
-                ✓ DETAILS RECORDED
-              </div>
-              <h1 className="success-title font-display text-3xl font-extrabold text-accent sm:text-5xl">
-                Your Throne Is Reserved.
-              </h1>
-              <p className="mx-auto mt-5 max-w-lg font-display text-[11px] leading-6 text-foreground sm:text-sm">
-                Your details have been recorded. Welcome to the dynasty.
-              </p>
-              <div aria-hidden className="mx-auto my-6 flex items-center justify-center gap-3 text-accent">
-                <span className="h-px w-12 bg-accent/60" />
-                <span className="font-display text-xs">◆</span>
-                <span className="h-px w-12 bg-accent/60" />
-              </div>
-              <Button
-                size="lg"
-                onClick={() => setView("home")}
-                className="h-14 w-full max-w-sm border-0 border-b-8 border-secondary bg-primary px-4 font-display text-[11px] font-bold text-primary-foreground shadow-none hover:bg-primary/90 active:translate-y-2 active:border-b-0 sm:text-sm"
-              >
-                RETURN TO THE KINGDOM
-              </Button>
-            </div>
-          </section>
-        )}
+        <section className="state-enter mx-auto flex h-full w-full max-w-3xl -translate-y-12 flex-col items-center justify-center pt-24 text-center sm:-translate-y-16 sm:pt-28">
+          <h1 className="sr-only">ARCSultans</h1>
+          <img
+            src={TITLE_LOGO}
+            alt="ARCSultans"
+            className="w-full max-w-lg object-contain [image-rendering:pixelated] sm:max-w-xl"
+          />
+          <p className="mt-4 max-w-2xl font-display text-sm font-bold leading-7 text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)] sm:text-lg sm:leading-8">
+            999 Sultans arriving on ARC.<br />Claim your throne before the gates close.
+          </p>
+          <PixelButtonLink
+            to="/throne"
+            className="mt-5 h-9 w-full max-w-[250px] text-[10px] hover:bg-primary/90 sm:h-10 sm:text-xs"
+          >
+            ENTER THE SULTANATE
+          </PixelButtonLink>
+        </section>
       </div>
 
       <SiteFooter />
