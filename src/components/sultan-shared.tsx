@@ -59,9 +59,11 @@ function preloadImage(url: string) {
   const promise = new Promise<void>((resolve) => {
     const img = new window.Image();
     let settled = false;
+    const timeout = window.setTimeout(() => finish(false), 8000);
     const finish = (loaded: boolean) => {
       if (settled) return;
       settled = true;
+      window.clearTimeout(timeout);
       if (loaded) loadedImageUrls.add(url);
       imageLoadPromises.delete(url);
       resolve();
@@ -127,6 +129,8 @@ export function SceneGate({
   const ready = useImagesReady(images);
   return (
     <div
+      data-scene-ready={ready ? "true" : "false"}
+      aria-busy={!ready}
       className={`${className} transition-opacity duration-300 ease-out ${
         ready ? "opacity-100" : "opacity-0"
       }`}
