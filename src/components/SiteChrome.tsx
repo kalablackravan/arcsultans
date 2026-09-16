@@ -50,7 +50,7 @@ export function SiteFooter() {
                     <img
                       src={item.image}
                       alt={item.label}
-                      className="h-3.5 w-auto object-contain [image-rendering:pixelated] sm:h-4"
+                      className="h-5 w-auto object-contain [image-rendering:pixelated] sm:h-6"
                     />
                   ) : (
                     item.label
