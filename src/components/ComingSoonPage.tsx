@@ -1,6 +1,4 @@
-import { Link } from "@tanstack/react-router";
-
-import { Button } from "@/components/ui/button";
+import { SiteFooter, TopStatus } from "@/components/SiteChrome";
 
 const CDN_ROOT = "https://cdn.jsdelivr.net/gh/0xDarkSeidBull/TheSaudisARC@main";
 const BACKGROUND = `${CDN_ROOT}/backgroundstory/homepage.png`;
@@ -13,7 +11,7 @@ type ComingSoonPageProps = {
 
 export function ComingSoonPage({ title, artwork }: ComingSoonPageProps) {
   return (
-    <main className="relative flex min-h-dvh overflow-hidden bg-background font-display">
+    <main className="relative flex min-h-dvh flex-col overflow-hidden bg-background font-display">
       <img
         src={BACKGROUND}
         alt=""
@@ -22,24 +20,19 @@ export function ComingSoonPage({ title, artwork }: ComingSoonPageProps) {
       />
       <div aria-hidden="true" className="fixed inset-0 bg-background/55" />
 
-      <div className="relative z-10 flex min-h-dvh w-full flex-col px-5 py-5 sm:px-8 sm:py-7 lg:px-12 lg:py-9">
-        <header className="flex items-start justify-between gap-5">
+      <TopStatus />
+
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col px-5 sm:px-8 lg:px-12">
+        <header className="pt-20 sm:pt-24 lg:pt-28">
           <h1 className="sr-only">{title}</h1>
           <img
             src={artwork}
             alt={title}
-            className="h-auto w-[min(58vw,380px)] object-contain object-left [image-rendering:pixelated]"
+            className="h-auto w-[min(58vw,360px)] object-contain object-left [image-rendering:pixelated]"
           />
-          <Button
-            asChild
-            variant="outline"
-            className="h-9 shrink-0 border-footer-border bg-footer-surface px-3 text-[9px] font-bold uppercase text-footer-title hover:bg-footer-icon sm:h-10 sm:px-4 sm:text-[10px]"
-          >
-            <Link to="/">Palace</Link>
-          </Button>
         </header>
 
-        <section className="state-enter flex flex-1 items-center justify-center px-4 pb-16 pt-8 text-center">
+        <section className="state-enter flex flex-1 items-center justify-center px-4 pb-12 text-center sm:pb-16">
           <img
             src={COMING_SOON}
             alt="Coming soon"
@@ -47,6 +40,7 @@ export function ComingSoonPage({ title, artwork }: ComingSoonPageProps) {
           />
         </section>
       </div>
+      <SiteFooter />
     </main>
   );
 }

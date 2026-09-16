@@ -1,6 +1,8 @@
 # Roadmap
 
-- [x] Rename footer navigation labels.
-- [x] Link Palace to the complete home page.
-- [x] Add Chronicles, Journey, Royal Counsel, and Royal Scrolls pages.
-- [x] Verify every page, image, and footer link on desktop and mobile.
+- [x] Share the homepage top status blocks across all section pages.
+- [x] Keep the complete footer visible across all section pages.
+- [x] Remove the separate Palace button from section pages.
+- [x] Keep section artwork clear of the top status labels.
+- [x] Change the OpenSea destination to https://opensea.io/.
+- [x] Verify desktop and mobile section layouts and navigation.
