@@ -30,6 +30,72 @@ export const WHITELIST_BUTTON_BACKGROUND = {
   imageRendering: "pixelated",
 } as const;
 
+/**
+ * Preloads every image a scene needs so nothing pops in one-by-one.
+ * Returns true only once all of them are decoded (or after a safety timeout).
+ */
+export function useImagesReady(urls: readonly string[]) {
+  const key = urls.join("|");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    let remaining = urls.length;
+    if (remaining === 0) {
+      setReady(true);
+      return;
+    }
+    setReady(false);
+    const finish = () => {
+      remaining -= 1;
+      if (remaining <= 0 && !cancelled) setReady(true);
+    };
+    const safety = setTimeout(() => {
+      if (!cancelled) setReady(true);
+    }, 8000);
+    const loaders = urls.map((url) => {
+      const img = new window.Image();
+      img.onload = finish;
+      img.onerror = finish;
+      img.src = url;
+      return img;
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(safety);
+      loaders.forEach((img) => {
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  return ready;
+}
+
+/** Holds a scene hidden until every image in `images` has loaded. */
+export function SceneGate({
+  images,
+  children,
+  className = "",
+}: {
+  images: readonly string[];
+  children: ReactNode;
+  className?: string;
+}) {
+  const ready = useImagesReady(images);
+  return (
+    <div
+      className={`${className} transition-opacity duration-300 ease-out ${
+        ready ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      {ready ? children : <div aria-hidden className="invisible">{children}</div>}
+    </div>
+  );
+}
+
 export function PageBackground({ variant }: { variant: "home" | "whitelist" }) {
   const isHome = variant === "home";
   return (
