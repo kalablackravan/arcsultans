@@ -38,13 +38,13 @@ export const SIDE_FRAMES = [
   `${CDN_ROOT}/4sides_and_centre/45.png`,
 ] as const;
 
-// Labels shown under each corner preview, matching SIDE_FRAMES order
+// Full token names shown under each corner preview, matching SIDE_FRAMES order
 // (left-top, left-bottom, right-top, right-bottom).
 export const CORNER_LABELS = [
-  "Sultan #22",
-  "Sultan #258",
-  "Sultan #4",
-  "Sultan #45",
+  "Sultan #22 — Desert Shadow",
+  "Sultan #258 — Elder of the Dynasty",
+  "Sultan #4 — Royal Commander",
+  "Sultan #45 — Sultanate Elite",
 ] as const;
 
 export const WHITELIST_BUTTON_BACKGROUND = {
@@ -191,7 +191,7 @@ export function SideGifPreview({ gif, slot }: { gif: string; slot: number }) {
           className="absolute left-1/2 top-1/2 h-[150%] w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain [image-rendering:pixelated]"
         />
       </div>
-      <span className="mt-1 text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)]">
+      <span className="mt-1 whitespace-nowrap text-center font-display text-[9px] font-bold leading-none text-footer-title [text-shadow:0_2px_0_var(--background),0_0_10px_color-mix(in_oklab,var(--footer-title)_30%,transparent)]">
         {CORNER_LABELS[slot]}
       </span>
     </div>
