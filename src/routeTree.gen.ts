@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChroniclesRouteImport } from './routes/chronicles'
+import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as RoyalCounselRouteImport } from './routes/royal-counsel'
+import { Route as RoyalScrollsRouteImport } from './routes/royal-scrolls'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChroniclesRoute = ChroniclesRouteImport.update({
+  id: '/chronicles',
+  path: '/chronicles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JourneyRoute = JourneyRouteImport.update({
+  id: '/journey',
+  path: '/journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoyalCounselRoute = RoyalCounselRouteImport.update({
+  id: '/royal-counsel',
+  path: '/royal-counsel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoyalScrollsRoute = RoyalScrollsRouteImport.update({
+  id: '/royal-scrolls',
+  path: '/royal-scrolls',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chronicles': typeof ChroniclesRoute
+  '/journey': typeof JourneyRoute
+  '/royal-counsel': typeof RoyalCounselRoute
+  '/royal-scrolls': typeof RoyalScrollsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chronicles': typeof ChroniclesRoute
+  '/journey': typeof JourneyRoute
+  '/royal-counsel': typeof RoyalCounselRoute
+  '/royal-scrolls': typeof RoyalScrollsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chronicles': typeof ChroniclesRoute
+  '/journey': typeof JourneyRoute
+  '/royal-counsel': typeof RoyalCounselRoute
+  '/royal-scrolls': typeof RoyalScrollsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/chronicles' | '/journey' | '/royal-counsel' | '/royal-scrolls'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/chronicles' | '/journey' | '/royal-counsel' | '/royal-scrolls'
+  id:
+    | '__root__'
+    | '/'
+    | '/chronicles'
+    | '/journey'
+    | '/royal-counsel'
+    | '/royal-scrolls'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChroniclesRoute: typeof ChroniclesRoute
+  JourneyRoute: typeof JourneyRoute
+  RoyalCounselRoute: typeof RoyalCounselRoute
+  RoyalScrollsRoute: typeof RoyalScrollsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chronicles': {
+      id: '/chronicles'
+      path: '/chronicles'
+      fullPath: '/chronicles'
+      preLoaderRoute: typeof ChroniclesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journey': {
+      id: '/journey'
+      path: '/journey'
+      fullPath: '/journey'
+      preLoaderRoute: typeof JourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/royal-counsel': {
+      id: '/royal-counsel'
+      path: '/royal-counsel'
+      fullPath: '/royal-counsel'
+      preLoaderRoute: typeof RoyalCounselRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/royal-scrolls': {
+      id: '/royal-scrolls'
+      path: '/royal-scrolls'
+      fullPath: '/royal-scrolls'
+      preLoaderRoute: typeof RoyalScrollsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChroniclesRoute: ChroniclesRoute,
+  JourneyRoute: JourneyRoute,
+  RoyalCounselRoute: RoyalCounselRoute,
+  RoyalScrollsRoute: RoyalScrollsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
