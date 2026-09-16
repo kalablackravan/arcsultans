@@ -60,7 +60,6 @@ export const WHITELIST_BUTTON_BACKGROUND = {
 const loadedImageUrls = new Set<string>();
 const settledAssetUrls = new Set<string>();
 const imageLoadPromises = new Map<string, Promise<void>>();
-const videoElements = new Map<string, HTMLVideoElement>();
 
 function preloadImage(url: string) {
   if (settledAssetUrls.has(url)) return Promise.resolve();
